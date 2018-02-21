@@ -34,42 +34,54 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor(red: CGFloat(237 / 255.0), green: CGFloat(85 / 255.0), blue: CGFloat(101 / 255.0), alpha: 1)
+//        self.view.backgroundColor = UIColor(red: CGFloat(237 / 255.0), green: CGFloat(85 / 255.0), blue: CGFloat(101 / 255.0), alpha: 1)
+		
+		let dim: CGFloat = 100.0
+		let frame = CGRect(x: view.bounds.size.width/2 - dim/2, y: view.bounds.size.height/2 - dim/2, width: dim, height: dim)
+		let activityIndicatorView = NVActivityIndicatorView(frame: frame,
+															type: .breezy,
+															color: UIColor(red:0.46, green:0.75, blue:0.88, alpha:1.00),
+															padding: 0)
+		view.addSubview(activityIndicatorView)
+		activityIndicatorView.startAnimating()
+		
+		
+		
 
-        let cols = 4
-        let rows = 8
-        let cellWidth = Int(self.view.frame.width / CGFloat(cols))
-        let cellHeight = Int(self.view.frame.height / CGFloat(rows))
-
-        (NVActivityIndicatorType.ballPulse.rawValue ... NVActivityIndicatorType.circleStrokeSpin.rawValue).forEach {
-            let x = ($0 - 1) % cols * cellWidth
-            let y = ($0 - 1) / cols * cellHeight
-            let frame = CGRect(x: x, y: y, width: cellWidth, height: cellHeight)
-            let activityIndicatorView = NVActivityIndicatorView(frame: frame,
-                                                                type: NVActivityIndicatorType(rawValue: $0)!)
-            let animationTypeLabel = UILabel(frame: frame)
-
-            animationTypeLabel.text = String($0)
-            animationTypeLabel.sizeToFit()
-            animationTypeLabel.textColor = UIColor.white
-            animationTypeLabel.frame.origin.x += 5
-            animationTypeLabel.frame.origin.y += CGFloat(cellHeight) - animationTypeLabel.frame.size.height
-
-            activityIndicatorView.padding = 20
-            if $0 == NVActivityIndicatorType.orbit.rawValue {
-                activityIndicatorView.padding = 0
-            }
-            self.view.addSubview(activityIndicatorView)
-            self.view.addSubview(animationTypeLabel)
-            activityIndicatorView.startAnimating()
-
-            let button: UIButton = UIButton(frame: frame)
-            button.tag = $0
-            button.addTarget(self,
-                             action: #selector(buttonTapped(_:)),
-                             for: UIControlEvents.touchUpInside)
-            self.view.addSubview(button)
-        }
+//        let cols = 4
+//        let rows = 8
+//        let cellWidth = Int(self.view.frame.width / CGFloat(cols))
+//        let cellHeight = Int(self.view.frame.height / CGFloat(rows))
+//
+//        (NVActivityIndicatorType.ballPulse.rawValue ... NVActivityIndicatorType.breezy.rawValue).forEach {
+//            let x = ($0 - 1) % cols * cellWidth
+//            let y = ($0 - 1) / cols * cellHeight
+//            let frame = CGRect(x: x, y: y, width: cellWidth, height: cellHeight)
+//            let activityIndicatorView = NVActivityIndicatorView(frame: frame,
+//                                                                type: NVActivityIndicatorType(rawValue: $0)!)
+//            let animationTypeLabel = UILabel(frame: frame)
+//
+//            animationTypeLabel.text = String($0)
+//            animationTypeLabel.sizeToFit()
+//            animationTypeLabel.textColor = UIColor.white
+//            animationTypeLabel.frame.origin.x += 5
+//            animationTypeLabel.frame.origin.y += CGFloat(cellHeight) - animationTypeLabel.frame.size.height
+//
+//            activityIndicatorView.padding = 20
+//            if $0 == NVActivityIndicatorType.orbit.rawValue {
+//                activityIndicatorView.padding = 0
+//            }
+//            self.view.addSubview(activityIndicatorView)
+//            self.view.addSubview(animationTypeLabel)
+//            activityIndicatorView.startAnimating()
+//
+//            let button: UIButton = UIButton(frame: frame)
+//            button.tag = $0
+//            button.addTarget(self,
+//                             action: #selector(buttonTapped(_:)),
+//                             for: UIControlEvents.touchUpInside)
+//            self.view.addSubview(button)
+//        }
     }
 
     @objc func buttonTapped(_ sender: UIButton) {
