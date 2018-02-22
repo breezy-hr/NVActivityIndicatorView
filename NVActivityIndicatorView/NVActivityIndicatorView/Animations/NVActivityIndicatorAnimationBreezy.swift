@@ -14,44 +14,40 @@ class NVActivityIndicatorAnimationBreezy: NVActivityIndicatorAnimationDelegate {
 		let spacing: CGFloat = 25
 		let circleSize = (size.width - spacing * 2) / 3
 		let centerY = (layer.bounds.height - circleSize) / 2
-		let containerLayerSize = CGSize(width: (size.width / 3.0) + circleSize, height: circleSize)
-		
-		let circle1Layer = CALayer()
-		circle1Layer.frame = CGRect(origin: CGPoint(x: 0.0, y: centerY), size: containerLayerSize)
+
 		let circle1 = NVActivityIndicatorShape.circle.layerWith(size: CGSize(width: circleSize, height: circleSize), color: color)
-		circle1.frame = CGRect(x: 0, y: 0, width: circleSize, height: circleSize)
-		circle1Layer.addSublayer(circle1)
-		
-		let circle2Layer = CALayer()
-		circle2Layer.frame = CGRect(origin: CGPoint(x: 0.0, y: centerY), size: containerLayerSize)
+		circle1.frame = CGRect(x: 0.0, y: centerY, width: circleSize, height: circleSize)
+
 		let circle2 = NVActivityIndicatorShape.circle.layerWith(size: CGSize(width: circleSize, height: circleSize), color: color)
-		circle2.frame = CGRect(x: 0, y: 0, width: circleSize, height: circleSize)
-		circle2Layer.addSublayer(circle2)
-		
-		let circle3Layer = CALayer()
-		circle3Layer.frame = CGRect(origin: CGPoint(x: 0.0, y: centerY), size: containerLayerSize)
+		circle2.frame = CGRect(x: 0.0, y: centerY, width: circleSize, height: circleSize)
+
 		let circle3 = NVActivityIndicatorShape.circle.layerWith(size: CGSize(width: circleSize, height: circleSize), color: color)
-		circle3.frame = CGRect(x: 0, y: 0, width: circleSize, height: circleSize)
-		circle3Layer.addSublayer(circle3)
+		circle3.frame = CGRect(x: 0.0, y: centerY, width: circleSize, height: circleSize)
 		
-		layer.addSublayer(circle1Layer)
-		layer.addSublayer(circle2Layer)
-		layer.addSublayer(circle3Layer)
+		layer.addSublayer(circle1)
+		layer.addSublayer(circle2)
+		layer.addSublayer(circle3)
 		
 		
 		let currentTime = CACurrentMediaTime()
-		let spacingDistance = size.width / 3.0
 		let timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
 		let timingFunctions = [timingFunction, timingFunction, timingFunction, timingFunction, timingFunction, timingFunction]
 		
+		let spacingDistance = (size.width - (circleSize * 3.0) / 2.0)
+		let firstPosition = CGPoint(x: 0.0, y: 0.0)
+		let secondPosition = CGPoint(x: (size.width - circleSize) / 2.0, y: 0.0)
+		let thirdPosition = CGPoint(x: size.width - circleSize, y: 0.0)
+		let leftControlPoint = CGPoint(x: spacingDistance / 2.0, y: -spacingDistance * 0.75)
+		let rightControlPoint = CGPoint(x: spacingDistance, y: spacingDistance * 0.75)
+		
 		let firstCirclePath = UIBezierPath()
-		firstCirclePath.move(to: CGPoint(x: 0, y: 0))
-		firstCirclePath.addQuadCurve(to: CGPoint(x: spacingDistance, y: 0), controlPoint: CGPoint(x: spacingDistance / 2.0, y: -spacingDistance * 1.5))
-		firstCirclePath.addQuadCurve(to: CGPoint(x: spacingDistance * 2.0, y: 0), controlPoint: CGPoint(x: spacingDistance, y: spacingDistance * 1.5))
-		firstCirclePath.addLine(to: CGPoint(x: spacingDistance * 2.0, y: 0))
-		firstCirclePath.addLine(to: CGPoint(x: spacingDistance, y: 0))
-		firstCirclePath.addLine(to: CGPoint(x: 0, y: 0))
-		firstCirclePath.addLine(to: CGPoint(x: 0, y: 0))
+		firstCirclePath.move(to: firstPosition)
+		firstCirclePath.addQuadCurve(to: secondPosition, controlPoint: leftControlPoint)
+		firstCirclePath.addQuadCurve(to: thirdPosition, controlPoint: rightControlPoint)
+		firstCirclePath.addLine(to: thirdPosition)
+		firstCirclePath.addLine(to: secondPosition)
+		firstCirclePath.addLine(to: firstPosition)
+		firstCirclePath.addLine(to: firstPosition)
 		
 		let firstAnimation = CAKeyframeAnimation(keyPath: "transform.translation")
 		firstAnimation.path = firstCirclePath.cgPath
@@ -62,17 +58,17 @@ class NVActivityIndicatorAnimationBreezy: NVActivityIndicatorAnimationDelegate {
 		firstAnimation.duration = 3.0
 		firstAnimation.beginTime = currentTime
 		
-		circle1Layer.add(firstAnimation, forKey: "1")
+		circle1.add(firstAnimation, forKey: "1")
 		
 		
 		let secondCirclePath = UIBezierPath()
-		secondCirclePath.move(to: CGPoint(x: spacingDistance, y: 0.0))
-		secondCirclePath.addLine(to: CGPoint(x: 0, y: 0))
-		secondCirclePath.addLine(to: CGPoint(x: 0, y: 0))
-		secondCirclePath.addQuadCurve(to: CGPoint(x: spacingDistance, y: 0), controlPoint: CGPoint(x: spacingDistance / 2.0, y: -spacingDistance * 1.5))
-		secondCirclePath.addQuadCurve(to: CGPoint(x: spacingDistance * 2.0, y: 0), controlPoint: CGPoint(x: spacingDistance, y: spacingDistance * 1.5))
-		secondCirclePath.addLine(to: CGPoint(x: spacingDistance * 2.0, y: 0))
-		secondCirclePath.addLine(to: CGPoint(x: spacingDistance, y: 0))
+		secondCirclePath.move(to: secondPosition)
+		secondCirclePath.addLine(to: firstPosition)
+		secondCirclePath.addLine(to: firstPosition)
+		secondCirclePath.addQuadCurve(to: secondPosition, controlPoint: leftControlPoint)
+		secondCirclePath.addQuadCurve(to: thirdPosition, controlPoint: rightControlPoint)
+		secondCirclePath.addLine(to: thirdPosition)
+		secondCirclePath.addLine(to: secondPosition)
 		
 		let secondAnimation = CAKeyframeAnimation(keyPath: "transform.translation")
 		secondAnimation.path = secondCirclePath.cgPath
@@ -83,17 +79,17 @@ class NVActivityIndicatorAnimationBreezy: NVActivityIndicatorAnimationDelegate {
 		secondAnimation.duration = 3.0
 		secondAnimation.beginTime = currentTime
 
-		circle2Layer.add(secondAnimation, forKey: "2")
+		circle2.add(secondAnimation, forKey: "2")
 		
 		
 		let thirdCirclePath = UIBezierPath()
-		thirdCirclePath.move(to: CGPoint(x: spacingDistance * 2.0, y: 0.0))
-		thirdCirclePath.addLine(to: CGPoint(x: spacingDistance * 2.0, y: 0))
-		thirdCirclePath.addLine(to: CGPoint(x: spacingDistance, y: 0))
-		thirdCirclePath.addLine(to: CGPoint(x: 0, y: 0))
-		thirdCirclePath.addLine(to: CGPoint(x: 0, y: 0))
-		thirdCirclePath.addQuadCurve(to: CGPoint(x: spacingDistance, y: 0), controlPoint: CGPoint(x: spacingDistance / 2.0, y: -spacingDistance * 1.5))
-		thirdCirclePath.addQuadCurve(to: CGPoint(x: spacingDistance * 2.0, y: 0), controlPoint: CGPoint(x: spacingDistance, y: spacingDistance * 1.5))
+		thirdCirclePath.move(to: thirdPosition)
+		thirdCirclePath.addLine(to: thirdPosition)
+		thirdCirclePath.addLine(to: secondPosition)
+		thirdCirclePath.addLine(to: firstPosition)
+		thirdCirclePath.addLine(to: firstPosition)
+		thirdCirclePath.addQuadCurve(to: secondPosition, controlPoint: leftControlPoint)
+		thirdCirclePath.addQuadCurve(to: thirdPosition, controlPoint: rightControlPoint)
 
 		let thirdAnimation = CAKeyframeAnimation(keyPath: "transform.translation")
 		thirdAnimation.path = thirdCirclePath.cgPath
@@ -104,6 +100,6 @@ class NVActivityIndicatorAnimationBreezy: NVActivityIndicatorAnimationDelegate {
 		thirdAnimation.duration = 3.0
 		thirdAnimation.beginTime = currentTime
 
-		circle3Layer.add(thirdAnimation, forKey: "3")
+		circle3.add(thirdAnimation, forKey: "3")
 	}
 }
