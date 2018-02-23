@@ -36,7 +36,7 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
 
 //        self.view.backgroundColor = UIColor(red: CGFloat(237 / 255.0), green: CGFloat(85 / 255.0), blue: CGFloat(101 / 255.0), alpha: 1)
 		
-		let dim: CGFloat = 100.0
+		let dim: CGFloat = 75.0
 		let frame = CGRect(x: view.bounds.size.width/2 - dim/2, y: view.bounds.size.height/2 - dim/2, width: dim, height: dim)
 		let activityIndicatorView = NVActivityIndicatorView(frame: frame,
 															type: .breezy,

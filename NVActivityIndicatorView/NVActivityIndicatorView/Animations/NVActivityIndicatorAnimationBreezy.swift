@@ -11,7 +11,7 @@ import UIKit
 class NVActivityIndicatorAnimationBreezy: NVActivityIndicatorAnimationDelegate {
 	func setUpAnimation(in layer: CALayer, size: CGSize, color: UIColor) {
 		
-		let spacing: CGFloat = 25
+		let spacing: CGFloat = 15.0
 		let circleSize = (size.width - spacing * 2) / 3
 		let centerY = (layer.bounds.height - circleSize) / 2
 
@@ -33,17 +33,19 @@ class NVActivityIndicatorAnimationBreezy: NVActivityIndicatorAnimationDelegate {
 		let timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
 		let timingFunctions = [timingFunction, timingFunction, timingFunction, timingFunction, timingFunction, timingFunction]
 		
-		let spacingDistance = (size.width - (circleSize * 3.0) / 2.0)
 		let firstPosition = CGPoint(x: 0.0, y: 0.0)
 		let secondPosition = CGPoint(x: (size.width - circleSize) / 2.0, y: 0.0)
 		let thirdPosition = CGPoint(x: size.width - circleSize, y: 0.0)
-		let leftControlPoint = CGPoint(x: spacingDistance / 2.0, y: -spacingDistance * 0.75)
-		let rightControlPoint = CGPoint(x: spacingDistance, y: spacingDistance * 0.75)
+		let arcRadius = (secondPosition.x - firstPosition.x) / 2.0
 		
 		let firstCirclePath = UIBezierPath()
 		firstCirclePath.move(to: firstPosition)
-		firstCirclePath.addQuadCurve(to: secondPosition, controlPoint: leftControlPoint)
-		firstCirclePath.addQuadCurve(to: thirdPosition, controlPoint: rightControlPoint)
+		firstCirclePath.addCurve(to: secondPosition,
+								 controlPoint1: CGPoint(x: firstPosition.x, y: firstPosition.y - (arcRadius * 1.5)),
+								 controlPoint2: CGPoint(x: secondPosition.x, y: secondPosition.y - (arcRadius * 1.5)))
+		firstCirclePath.addCurve(to: thirdPosition,
+								 controlPoint1: CGPoint(x: secondPosition.x, y: secondPosition.y + (arcRadius * 1.5)),
+								 controlPoint2: CGPoint(x: thirdPosition.x, y: thirdPosition.y + (arcRadius * 1.5)))
 		firstCirclePath.addLine(to: thirdPosition)
 		firstCirclePath.addLine(to: secondPosition)
 		firstCirclePath.addLine(to: firstPosition)
@@ -65,8 +67,12 @@ class NVActivityIndicatorAnimationBreezy: NVActivityIndicatorAnimationDelegate {
 		secondCirclePath.move(to: secondPosition)
 		secondCirclePath.addLine(to: firstPosition)
 		secondCirclePath.addLine(to: firstPosition)
-		secondCirclePath.addQuadCurve(to: secondPosition, controlPoint: leftControlPoint)
-		secondCirclePath.addQuadCurve(to: thirdPosition, controlPoint: rightControlPoint)
+		secondCirclePath.addCurve(to: secondPosition,
+								 controlPoint1: CGPoint(x: firstPosition.x, y: firstPosition.y - (arcRadius * 1.5)),
+								 controlPoint2: CGPoint(x: secondPosition.x, y: secondPosition.y - (arcRadius * 1.5)))
+		secondCirclePath.addCurve(to: thirdPosition,
+								 controlPoint1: CGPoint(x: secondPosition.x, y: secondPosition.y + (arcRadius * 1.5)),
+								 controlPoint2: CGPoint(x: thirdPosition.x, y: thirdPosition.y + (arcRadius * 1.5)))
 		secondCirclePath.addLine(to: thirdPosition)
 		secondCirclePath.addLine(to: secondPosition)
 		
@@ -88,9 +94,12 @@ class NVActivityIndicatorAnimationBreezy: NVActivityIndicatorAnimationDelegate {
 		thirdCirclePath.addLine(to: secondPosition)
 		thirdCirclePath.addLine(to: firstPosition)
 		thirdCirclePath.addLine(to: firstPosition)
-		thirdCirclePath.addQuadCurve(to: secondPosition, controlPoint: leftControlPoint)
-		thirdCirclePath.addQuadCurve(to: thirdPosition, controlPoint: rightControlPoint)
-
+		thirdCirclePath.addCurve(to: secondPosition,
+								 controlPoint1: CGPoint(x: firstPosition.x, y: firstPosition.y - (arcRadius * 1.5)),
+								 controlPoint2: CGPoint(x: secondPosition.x, y: secondPosition.y - (arcRadius * 1.5)))
+		thirdCirclePath.addCurve(to: thirdPosition,
+								 controlPoint1: CGPoint(x: secondPosition.x, y: secondPosition.y + (arcRadius * 1.5)),
+								 controlPoint2: CGPoint(x: thirdPosition.x, y: thirdPosition.y + (arcRadius * 1.5)))
 		let thirdAnimation = CAKeyframeAnimation(keyPath: "transform.translation")
 		thirdAnimation.path = thirdCirclePath.cgPath
 		thirdAnimation.calculationMode = kCAAnimationCubic
