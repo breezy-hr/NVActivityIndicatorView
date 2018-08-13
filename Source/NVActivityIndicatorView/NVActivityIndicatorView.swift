@@ -273,6 +273,7 @@ public enum NVActivityIndicatorType: Int {
 
     static let allTypes = (blank.rawValue ... circleStrokeSpin.rawValue).map { NVActivityIndicatorType(rawValue: $0)! }
 
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     func animation() -> NVActivityIndicatorAnimationDelegate {
         switch self {
         case .blank:
@@ -347,8 +348,18 @@ public enum NVActivityIndicatorType: Int {
     }
 }
 
+/// Function that performs fade in/out animation.
+public typealias FadeInAnimation = (UIView) -> Void
+
+/// Function that performs fade out animation.
+///
+/// - Note: Must call the second parameter on the animation completion.
+public typealias FadeOutAnimation = (UIView, @escaping () -> Void) -> Void
+
+// swiftlint:disable file_length
 /// Activity indicator view with nice animations
 public final class NVActivityIndicatorView: UIView {
+    // swiftlint:disable identifier_name
     /// Default type. Default value is .BallSpinFadeLoader.
     public static var DEFAULT_TYPE: NVActivityIndicatorType = .ballSpinFadeLoader
 
@@ -387,6 +398,28 @@ public final class NVActivityIndicatorView: UIView {
 
     /// Default background color of UI blocker. Default value is UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
     public static var DEFAULT_BLOCKER_BACKGROUND_COLOR = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+
+    /// Default fade in animation.
+    public static var DEFAULT_FADE_IN_ANIMATION: FadeInAnimation = { view in
+        view.alpha = 0
+        UIView.animate(withDuration: 0.25) {
+            view.alpha = 1
+        }
+    }
+
+    /// Default fade out animation.
+    public static var DEFAULT_FADE_OUT_ANIMATION: FadeOutAnimation = { (view, complete) in
+        UIView.animate(withDuration: 0.25,
+                       animations: {
+                        view.alpha = 0
+        },
+                       completion: { completed in
+                        if completed {
+                            complete()
+                        }
+        })
+    }
+    // swiftlint:enable identifier_name
 
     /// Animation type.
     public var type: NVActivityIndicatorType = NVActivityIndicatorView.DEFAULT_TYPE
@@ -492,6 +525,7 @@ public final class NVActivityIndicatorView: UIView {
 
     // MARK: Internal
 
+    // swiftlint:disable:next identifier_name
     func _setTypeName(_ typeName: String) {
         for item in NVActivityIndicatorType.allTypes {
             if String(describing: item).caseInsensitiveCompare(typeName) == ComparisonResult.orderedSame {
@@ -509,7 +543,7 @@ public final class NVActivityIndicatorView: UIView {
 
     private final func setUpAnimation() {
         let animation: NVActivityIndicatorAnimationDelegate = type.animation()
-        var animationRect = UIEdgeInsetsInsetRect(frame, UIEdgeInsetsMake(padding, padding, padding, padding))
+        var animationRect = UIEdgeInsetsInsetRect(frame, UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding))
         let minEdge = min(animationRect.width, animationRect.height)
 
         layer.sublayers = nil
