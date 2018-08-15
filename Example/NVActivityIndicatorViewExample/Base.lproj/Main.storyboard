@@ -21,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c4U-Qe-bXl" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c4U-Qe-bXl" customClass="NVActivityIndicatorView" customModule="NVActivityIndicatorView">
                                 <rect key="frame" x="150" y="296" width="75" height="75"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -36,11 +36,21 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="padding">
                                         <real key="value" value="0.0"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="hidesWhenStopped" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5pS-Z5-ImS">
+                                <rect key="frame" x="137.5" y="421" width="100" height="30"/>
+                                <state key="normal" title="Toggle Hidden"/>
+                                <connections>
+                                    <action selector="toggleHidden:" destination="BYZ-38-t0r" eventType="touchUpInside" id="W3e-mw-zEC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="5pS-Z5-ImS" firstAttribute="top" secondItem="c4U-Qe-bXl" secondAttribute="bottom" constant="50" id="Snl-e7-2Pn"/>
+                            <constraint firstItem="5pS-Z5-ImS" firstAttribute="centerX" secondItem="c4U-Qe-bXl" secondAttribute="centerX" id="Ugf-eO-1c4"/>
                             <constraint firstItem="c4U-Qe-bXl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="k6k-1Y-1fN"/>
                             <constraint firstItem="c4U-Qe-bXl" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="l01-b2-Rwx"/>
                         </constraints>

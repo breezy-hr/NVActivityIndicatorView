@@ -35,8 +35,8 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-
-		loadingIndicator.startAnimating()
+		
+//		loadingIndicator.startAnimating()
 //        self.view.backgroundColor = UIColor(red: CGFloat(237 / 255.0), green: CGFloat(85 / 255.0), blue: CGFloat(101 / 255.0), alpha: 1)
 //
 //		let dim: CGFloat = 75.0
@@ -87,6 +87,9 @@ class ViewController: UIViewController, NVActivityIndicatorViewable {
 //        }
     }
 
+	@IBAction func toggleHidden(_ sender: Any) {
+		loadingIndicator.isHidden.toggle()
+	}
     @objc func buttonTapped(_ sender: UIButton) {
         let size = CGSize(width: 30, height: 30)
 

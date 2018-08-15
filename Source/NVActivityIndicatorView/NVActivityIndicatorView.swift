@@ -447,6 +447,18 @@ public final class NVActivityIndicatorView: UIView {
     /// Current status of animation, read-only.
     private(set) public var isAnimating: Bool = false
 
+	@IBInspectable public var hidesWhenStopped: Bool = false
+	public override var isHidden: Bool {
+		didSet {
+			guard hidesWhenStopped else { return }
+			if isHidden {
+				stopAnimating(changeHiddenFlag: false)
+			} else {
+				startAnimating(changeHiddenFlag: false)
+			}
+		}
+	}
+	
     /**
      Returns an object initialized from data in a given unarchiver.
      self, initialized using the data in decoder.
@@ -507,8 +519,8 @@ public final class NVActivityIndicatorView: UIView {
     /**
      Start animating.
      */
-    public final func startAnimating() {
-        isHidden = false
+	public final func startAnimating(changeHiddenFlag: Bool = true) {
+		if changeHiddenFlag { isHidden = false }
         isAnimating = true
         layer.speed = 1
         setUpAnimation()
@@ -517,8 +529,8 @@ public final class NVActivityIndicatorView: UIView {
     /**
      Stop animating.
      */
-    public final func stopAnimating() {
-        isHidden = true
+    public final func stopAnimating(changeHiddenFlag: Bool = true) {
+		if changeHiddenFlag { isHidden = true }
         isAnimating = false
         layer.sublayers?.removeAll()
     }
