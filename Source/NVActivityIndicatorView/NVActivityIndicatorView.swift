@@ -271,7 +271,7 @@ public enum NVActivityIndicatorType: Int {
 	 */
 	case breezy
 
-    static let allTypes = (blank.rawValue ... circleStrokeSpin.rawValue).map { NVActivityIndicatorType(rawValue: $0)! }
+    static let allTypes = (blank.rawValue ... breezy.rawValue).map { NVActivityIndicatorType(rawValue: $0)! }
 
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     func animation() -> NVActivityIndicatorAnimationDelegate {

@@ -31,23 +31,26 @@ import NVActivityIndicatorView
 
 class ViewController: UIViewController, NVActivityIndicatorViewable {
 
+	@IBOutlet weak var loadingIndicator: NVActivityIndicatorView!
+	
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		loadingIndicator.startAnimating()
 //        self.view.backgroundColor = UIColor(red: CGFloat(237 / 255.0), green: CGFloat(85 / 255.0), blue: CGFloat(101 / 255.0), alpha: 1)
-		
-		let dim: CGFloat = 75.0
-		let frame = CGRect(x: view.bounds.size.width/2 - dim/2, y: view.bounds.size.height/2 - dim/2, width: dim, height: dim)
-		let activityIndicatorView = NVActivityIndicatorView(frame: frame,
-															type: .breezy,
-															color: UIColor(red:0.46, green:0.75, blue:0.88, alpha:1.00),
-															padding: 0)
-		view.addSubview(activityIndicatorView)
-		activityIndicatorView.startAnimating()
-		
-		
-		
-
+//
+//		let dim: CGFloat = 75.0
+//		let frame = CGRect(x: view.bounds.size.width/2 - dim/2, y: view.bounds.size.height/2 - dim/2, width: dim, height: dim)
+//		let activityIndicatorView = NVActivityIndicatorView(frame: frame,
+//															type: .breezy,
+//															color: UIColor(red:0.46, green:0.75, blue:0.88, alpha:1.00),
+//															padding: 0)
+//		view.addSubview(activityIndicatorView)
+//		activityIndicatorView.startAnimating()
+//
+//
+//
+//
 //        let cols = 4
 //        let rows = 8
 //        let cellWidth = Int(self.view.frame.width / CGFloat(cols))
