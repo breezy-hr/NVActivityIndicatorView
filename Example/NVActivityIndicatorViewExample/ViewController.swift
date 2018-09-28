@@ -30,77 +30,65 @@ import Foundation
 import NVActivityIndicatorView
 
 class ViewController: UIViewController, NVActivityIndicatorViewable {
-
-	@IBOutlet weak var loadingIndicator: NVActivityIndicatorView!
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
-//		loadingIndicator.startAnimating()
-//        self.view.backgroundColor = UIColor(red: CGFloat(237 / 255.0), green: CGFloat(85 / 255.0), blue: CGFloat(101 / 255.0), alpha: 1)
-//
-//		let dim: CGFloat = 75.0
-//		let frame = CGRect(x: view.bounds.size.width/2 - dim/2, y: view.bounds.size.height/2 - dim/2, width: dim, height: dim)
-//		let activityIndicatorView = NVActivityIndicatorView(frame: frame,
-//															type: .breezy,
-//															color: UIColor(red:0.46, green:0.75, blue:0.88, alpha:1.00),
-//															padding: 0)
-//		view.addSubview(activityIndicatorView)
-//		activityIndicatorView.startAnimating()
-//
-//
-//
-//
-//        let cols = 4
-//        let rows = 8
-//        let cellWidth = Int(self.view.frame.width / CGFloat(cols))
-//        let cellHeight = Int(self.view.frame.height / CGFloat(rows))
-//
-//        (NVActivityIndicatorType.ballPulse.rawValue ... NVActivityIndicatorType.breezy.rawValue).forEach {
-//            let x = ($0 - 1) % cols * cellWidth
-//            let y = ($0 - 1) / cols * cellHeight
-//            let frame = CGRect(x: x, y: y, width: cellWidth, height: cellHeight)
-//            let activityIndicatorView = NVActivityIndicatorView(frame: frame,
-//                                                                type: NVActivityIndicatorType(rawValue: $0)!)
-//            let animationTypeLabel = UILabel(frame: frame)
-//
-//            animationTypeLabel.text = String($0)
-//            animationTypeLabel.sizeToFit()
-//            animationTypeLabel.textColor = UIColor.white
-//            animationTypeLabel.frame.origin.x += 5
-//            animationTypeLabel.frame.origin.y += CGFloat(cellHeight) - animationTypeLabel.frame.size.height
-//
-//            activityIndicatorView.padding = 20
-//            if $0 == NVActivityIndicatorType.orbit.rawValue {
-//                activityIndicatorView.padding = 0
-//            }
-//            self.view.addSubview(activityIndicatorView)
-//            self.view.addSubview(animationTypeLabel)
-//            activityIndicatorView.startAnimating()
-//
-//            let button: UIButton = UIButton(frame: frame)
-//            button.tag = $0
-//            button.addTarget(self,
-//                             action: #selector(buttonTapped(_:)),
-//                             for: UIControlEvents.touchUpInside)
-//            self.view.addSubview(button)
-//        }
-    }
-
-	@IBAction func toggleHidden(_ sender: Any) {
-		loadingIndicator.isHidden.toggle()
+		self.view.backgroundColor = UIColor(red: CGFloat(237 / 255.0), green: CGFloat(85 / 255.0), blue: CGFloat(101 / 255.0), alpha: 1)
+		
+		let cols = 4
+		let rows = 8
+		let cellWidth = Int(self.view.frame.width / CGFloat(cols))
+		let cellHeight = Int(self.view.frame.height / CGFloat(rows))
+		
+		(NVActivityIndicatorType.ballPulse.rawValue ... NVActivityIndicatorType.circleStrokeSpin.rawValue).forEach {
+			let x = ($0 - 1) % cols * cellWidth
+			let y = ($0 - 1) / cols * cellHeight
+			let frame = CGRect(x: x, y: y, width: cellWidth, height: cellHeight)
+			let activityIndicatorView = NVActivityIndicatorView(frame: frame,
+																type: NVActivityIndicatorType(rawValue: $0)!)
+			let animationTypeLabel = UILabel(frame: frame)
+			
+			animationTypeLabel.text = String($0)
+			animationTypeLabel.sizeToFit()
+			animationTypeLabel.textColor = UIColor.white
+			animationTypeLabel.frame.origin.x += 5
+			animationTypeLabel.frame.origin.y += CGFloat(cellHeight) - animationTypeLabel.frame.size.height
+			
+			activityIndicatorView.padding = 20
+			if $0 == NVActivityIndicatorType.orbit.rawValue {
+				activityIndicatorView.padding = 0
+			}
+			self.view.addSubview(activityIndicatorView)
+			self.view.addSubview(animationTypeLabel)
+			activityIndicatorView.startAnimating()
+			
+			let button: UIButton = UIButton(frame: frame)
+			button.tag = $0
+			#if swift(>=4.2)
+			button.addTarget(self,
+							 action: #selector(buttonTapped(_:)),
+							 for: .touchUpInside)
+			#else
+			button.addTarget(self,
+			action: #selector(buttonTapped(_:)),
+			for: UIControlEvents.touchUpInside)
+			#endif
+			self.view.addSubview(button)
+		}
 	}
-    @objc func buttonTapped(_ sender: UIButton) {
-        let size = CGSize(width: 30, height: 30)
-
-        startAnimating(size, message: "Loading...", type: NVActivityIndicatorType(rawValue: sender.tag)!, fadeInAnimation: nil)
-
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
-            NVActivityIndicatorPresenter.sharedInstance.setMessage("Authenticating...")
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
-            self.stopAnimating(nil)
-        }
-    }
+	
+	@objc func buttonTapped(_ sender: UIButton) {
+		let size = CGSize(width: 30, height: 30)
+		
+		startAnimating(size, message: "Loading...", type: NVActivityIndicatorType(rawValue: sender.tag)!, fadeInAnimation: nil)
+		
+		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
+			NVActivityIndicatorPresenter.sharedInstance.setMessage("Authenticating...")
+		}
+		
+		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+			self.stopAnimating(nil)
+		}
+	}
 }

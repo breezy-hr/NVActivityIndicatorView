@@ -30,7 +30,7 @@ class NVActivityIndicatorAnimationBreezy: NVActivityIndicatorAnimationDelegate {
 		
 		
 		let currentTime = CACurrentMediaTime()
-		let timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+		let timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
 		let timingFunctions = [timingFunction, timingFunction, timingFunction, timingFunction, timingFunction, timingFunction]
 		
 		let firstPosition = CGPoint(x: 0.0, y: 0.0)
@@ -53,7 +53,7 @@ class NVActivityIndicatorAnimationBreezy: NVActivityIndicatorAnimationDelegate {
 		
 		let firstAnimation = CAKeyframeAnimation(keyPath: "transform.translation")
 		firstAnimation.path = firstCirclePath.cgPath
-		firstAnimation.calculationMode = kCAAnimationCubic
+		firstAnimation.calculationMode = CAAnimationCalculationMode.cubic
 		firstAnimation.keyTimes = [0.0, 0.16, 0.33, 0.5, 0.67, 0.83, 1.0]
 		firstAnimation.timingFunctions = timingFunctions
 		firstAnimation.repeatCount = .infinity
@@ -78,7 +78,7 @@ class NVActivityIndicatorAnimationBreezy: NVActivityIndicatorAnimationDelegate {
 		
 		let secondAnimation = CAKeyframeAnimation(keyPath: "transform.translation")
 		secondAnimation.path = secondCirclePath.cgPath
-		secondAnimation.calculationMode = kCAAnimationCubic
+		secondAnimation.calculationMode = CAAnimationCalculationMode.cubic
 		secondAnimation.keyTimes = [0.0, 0.16, 0.33, 0.5, 0.67, 0.83, 1.0]
 		secondAnimation.timingFunctions = timingFunctions
 		secondAnimation.repeatCount = .infinity
@@ -102,7 +102,7 @@ class NVActivityIndicatorAnimationBreezy: NVActivityIndicatorAnimationDelegate {
 								 controlPoint2: CGPoint(x: thirdPosition.x, y: thirdPosition.y + (arcRadius * 1.5)))
 		let thirdAnimation = CAKeyframeAnimation(keyPath: "transform.translation")
 		thirdAnimation.path = thirdCirclePath.cgPath
-		thirdAnimation.calculationMode = kCAAnimationCubic
+		thirdAnimation.calculationMode = CAAnimationCalculationMode.cubic
 		thirdAnimation.keyTimes = [0.0, 0.16, 0.33, 0.5, 0.67, 0.83, 1.0]
 		thirdAnimation.timingFunctions = timingFunctions
 		thirdAnimation.repeatCount = .infinity
